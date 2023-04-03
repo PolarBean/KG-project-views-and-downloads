@@ -55,7 +55,7 @@ newIndex = ['dataset','last5daysViews', 'last30daysViews','allTimeViews',
        'last5daysDownloads','last30daysDownloads', 'allTimeDownloads', 'firstReleasedAt', 
        'versionID', 'project']
 df = df.reindex(columns=newIndex)
-# calculate total views and downloads
-df["totalViews"] = df["last5daysViews"] + df["last30daysViews"] + df["allTimeViews"]
-df["totalDownloads"] = df["last5daysDownloads"] + df["last30daysDownloads"] + df["allTimeDownloads"]
-df.to_csv("dopamap.csv", index=False)
+# calculate total views and downloads for all datasets and append as a new row
+df.loc['Total'] = df.sum(numeric_only=True, axis=0)
+
+df.to_csv(f"{project}_views_and_downloads.csv", index=False)
